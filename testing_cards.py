@@ -1,8 +1,5 @@
-import card
-from card import Card
+import deck
 
-new_card = card.Card("H", 2)
-print(new_card.rank)
+new_deck = deck.Deck()
 
-other_card = card.Card("D", 4)
-print(other_card.rank)
+print(new_deck.cards[1].rank + " of " + new_deck.cards[1].suit)
