@@ -13,42 +13,62 @@ for x in range(26):
 for y in range(26):
     p2.append(deck.deal())
 
+for x in range(len(p2)):
+    if p2[x] in p1:
+        print("eeeeeeeeeeeeeee")
+
 
 def turn(p1, p2):
     p1l = len(p1)-1
     p2l = len(p2)-1
+    if p1l <= 0:
+        return "p1 lose"
+    if p2l <= 0:
+        return "p2 lose"
     p1c = p1.pop(0)
     p2c = p2.pop(0)
+    bounty = []
     print(p1c)
     print(p2c)
     p1v = ranks.index(p1c.rank)
     p2v = ranks.index(p2c.rank)
-    if p1v == p2v:
-        p1p = [p1c]
-        p2p = [p2c]
-        if p1l >= 4:
-            for x in range(3):
-                p1p.append(p1.pop(0))
-        else:
-            for x in range(p1l-1):
-                p1p.append(p1.pop(0))
 
-        pass
+    while p1v == p2v:
 
-    elif p1v > p2v:
+        bounty = [p1c, p2c]
+        for x in range(3):
+            if len(p1)-1 >= 2:
+                bounty.append(p1.pop(0))
+        p1c = p1.pop(0)
+        for x in range(3):
+            if len(p2)-1 >= 2:
+                bounty.append(p2.pop(0))
+        p2c = p2.pop(0)
+
+        p1v = ranks.index(p1c.rank)
+        p2v = ranks.index(p2c.rank)
+
+    if p1v > p2v:
         p1.append(p1c)
         p1.append(p2c)
+        if bounty:
+            for x in bounty:
+                p1.append(bounty.pop(0))
         print("p1 win")
     elif p1v < p2v:
         p2.append(p1c)
         p2.append(p2c)
+        if bounty:
+            for x in bounty:
+                p1.append(bounty.pop(0))
         print("p2 win")
 
-
-p1 = player1
-p1l = player one deck len
-p1c = pyaer 1 card
-p1p = prize pile when they are euqal
+    for x in range(len(p2)):
+        if p2[x] in p1:
+            print("eeeeeeeeeeeeeee")
 
 
-turn(p1, p2)
+winner = False
+while(not winner):
+    winner = turn(p1, p2)
+print(winner)
