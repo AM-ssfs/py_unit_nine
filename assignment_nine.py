@@ -65,7 +65,7 @@ def turn(p1, p2):
 
     for x in range(len(p2)):
         if p2[x] in p1:
-            print("eeeeeeeeeeeeeee")
+            print("card duplicated somewhere")
 
 
 winner = False
