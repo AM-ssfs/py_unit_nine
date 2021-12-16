@@ -84,15 +84,18 @@ def turn(p1, p2):
             p1_error = p1c
         if len(p2) == 0:
             p2_error = p2c
-
     if p1v > p2v:
+        # prevents never ending games
+        shuffle(p1)
         p1.append(p1c)
         p1.append(p2c)
         # if there is a bounty then it is added to the player's deck
         while bounty:
             p1.append(bounty.pop(0))
+
         print("p1 win")
     elif p2v > p1v:
+        shuffle(p2)
         p2.append(p1c)
         p2.append(p2c)
         while bounty:
@@ -110,16 +113,25 @@ def turn(p1, p2):
 
 
 def main():
-    deck = Deck()
-    deck.shuffle()
-    decks = deal_cards(deck)
-    p1 = decks[0]
-    p2 = decks[1]
-    winner = False
-    while not winner:
-        winner = turn(p1, p2)
-    print(winner)
+    p1wins = 0
+    p2wins = 0
+    # run many time so i find error
+    for x in range(100):
+        deck = Deck()
+        deck.shuffle()
+        decks = deal_cards(deck)
+        p1 = decks[0]
+        p2 = decks[1]
+        winner = False
+        while not winner:
+            winner = turn(p1, p2)
+        print(winner)
 
+        if winner == "PLAYER 2 WINS!":
+            p2wins += 1
+        elif winner == "PLAYER 1 WINS!":
+            p1wins += 1
+        print(str(p1wins) + " to " + str(p2wins))
 
 if __name__ == '__main__':
     main()
