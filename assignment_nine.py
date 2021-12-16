@@ -10,27 +10,22 @@
 # p1c = player1's card
 # p1v = player1 card value (rank)
 
-
-
-
 from deck import Deck
+from random import shuffle
 
-deck = Deck()
-deck.shuffle()
 ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-p1 = []
-p2 = []
+
 
 # makes 2 equal sized decks of random cards
-for x in range(26):
-    p1.append(deck.deal())
-for y in range(26):
-    p2.append(deck.deal())
-
-# checks for error
-for x in range(len(p2)):
-    if p2[x] in p1:
-        print("same card(s) in each deck")
+def deal_cards(deck):
+    p1 = []
+    p2 = []
+    for x in range(26):
+        p1.append(deck.deal())
+    for y in range(26):
+        p2.append(deck.deal())
+    decks = [p1, p2]
+    return decks
 
 
 def turn(p1, p2):
@@ -39,19 +34,19 @@ def turn(p1, p2):
     p2l = len(p2)-1
 
     if p1l <= 0:
-        return "p1 lose"
+        return "PLAYER 2 WINS!"
     if p2l <= 0:
-        return "p2 lose"
+        return "PLAYER 1 WINS!"
 
     p1c = p1.pop(0)
     p2c = p2.pop(0)
     bounty = []
 
-    print(p1c)
-    print(p2c)
-
+    print("player1: "+ str(p1c))
+    print("player2: "+ str(p2c))
     p1v = ranks.index(p1c.rank)
     p2v = ranks.index(p2c.rank)
+
     # prevents rare error
     p1_error = ''
     p2_error = ''
@@ -77,13 +72,13 @@ def turn(p1, p2):
         p1v = ranks.index(p1c.rank)
         p2v = ranks.index(p2c.rank)
         print("")
+        bounty_list = []
         for x in range(len(bounty)):
-            print(bounty[x].rank + bounty[x].suit)
+            bounty_list.append(bounty[x].rank + bounty[x].suit)
+        print("bounty: " + str(bounty_list))
         print("")
         print(p1c)
         print(p2c)
-        print("")
-
         # prevents extremely rare error where p1 and p2 compare equal two or more times in a row on their last card
         if len(p1) == 0:
             p1_error = p1c
@@ -91,13 +86,13 @@ def turn(p1, p2):
             p2_error = p2c
 
     if p1v > p2v:
-        p2.append(p1c)
-        p2.append(p2c)
+        p1.append(p1c)
+        p1.append(p2c)
         # if there is a bounty then it is added to the player's deck
         while bounty:
-            p2.append(bounty.pop(0))
+            p1.append(bounty.pop(0))
         print("p1 win")
-    elif p1v < p2v:
+    elif p2v > p1v:
         p2.append(p1c)
         p2.append(p2c)
         while bounty:
@@ -107,26 +102,25 @@ def turn(p1, p2):
 
     if (len(p1)+len(p2)+len(bounty)) < 52:
         print("card deleted somewhere!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        error()  # this intentionaly creates an error so the program stops where it broke
+        cause_an_error()  # this intentionaly creates an error so the program stops where it broke
 
     if (len(p1) + len(p2) + len(bounty)) > 52:
         print("card duplicated somewhere!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        error
+        cause_an_error()
 
 
-for x in range(100):
+def main():
     deck = Deck()
     deck.shuffle()
-    p1 = []
-    p2 = []
-
-    for x in range(26):
-        p1.append(deck.deal())
-
-    for x in range(26):
-        p2.append(deck.deal())
-
+    decks = deal_cards(deck)
+    p1 = decks[0]
+    p2 = decks[1]
     winner = False
     while not winner:
         winner = turn(p1, p2)
+    print(winner)
+
+
+if __name__ == '__main__':
+    main()
 
