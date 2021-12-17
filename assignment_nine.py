@@ -116,7 +116,7 @@ def main():
     p1wins = 0
     p2wins = 0
     play_again = True
-    while play_again == True:
+    while play_again:
         # I am able to run it many time so i find errors
         for x in range(1):
             deck = Deck()
@@ -127,12 +127,14 @@ def main():
             winner = False
             while not winner:
                 winner = compare(p1, p2)
+            print("")
             print(winner)
             if winner == "PLAYER 2 WINS!":
                 p2wins += 1
             elif winner == "PLAYER 1 WINS!":
                 p1wins += 1
             print(str(p1wins) + " to " + str(p2wins))
+            print("")
 
         user_input = False
         while not user_input:  # until user answers correctly
