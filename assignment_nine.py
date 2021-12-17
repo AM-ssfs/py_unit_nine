@@ -28,7 +28,7 @@ def deal_cards(deck):
     return decks
 
 
-def turn(p1, p2):
+def compare(p1, p2):
 
     p1l = len(p1)-1
     p2l = len(p2)-1
@@ -115,23 +115,46 @@ def turn(p1, p2):
 def main():
     p1wins = 0
     p2wins = 0
-    # run many time so i find error
-    for x in range(100):
-        deck = Deck()
-        deck.shuffle()
-        decks = deal_cards(deck)
-        p1 = decks[0]
-        p2 = decks[1]
-        winner = False
-        while not winner:
-            winner = turn(p1, p2)
-        print(winner)
+    play_again = True
+    while play_again == True:
+        # I am able to run it many time so i find errors
+        for x in range(1):
+            deck = Deck()
+            deck.shuffle()
+            decks = deal_cards(deck)
+            p1 = decks[0]
+            p2 = decks[1]
+            winner = False
+            while not winner:
+                winner = compare(p1, p2)
+            print(winner)
+            if winner == "PLAYER 2 WINS!":
+                p2wins += 1
+            elif winner == "PLAYER 1 WINS!":
+                p1wins += 1
+            print(str(p1wins) + " to " + str(p2wins))
 
-        if winner == "PLAYER 2 WINS!":
-            p2wins += 1
-        elif winner == "PLAYER 1 WINS!":
-            p1wins += 1
-        print(str(p1wins) + " to " + str(p2wins))
+        user_input = False
+        while not user_input:  # until user answers correctly
+
+            answer = input("do you want to play again? (y/n) ")
+            print()
+
+            if answer.upper() == "Y" or answer.upper() == "YES":
+                print()
+                play_again = True
+                user_input = True
+
+            elif answer.upper() == "N" or answer.upper() == "NO":
+                print()
+                play_again = False
+                user_input = True
+
+            else:
+                print("please enter \"Y\", \"yes\", \"N\" or \"no\".")
+
+    print("thank you for playing!")
+    print("the final score was: " + str(p1wins) + " to " + str(p2wins))
 
 if __name__ == '__main__':
     main()
